@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,10 +17,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.baoliang.goods.R;
 import com.baoliang.goods.Register.Register;
+import com.baoliang.goods.Tools.Constantvalue;
 import com.baoliang.goods.Tools.DisplayUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
@@ -28,6 +40,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private Button   loginBtn;
     private TextView bar;
     private Button   registerBtn;
+    private RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +49,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         {
             getSupportActionBar().hide();
         }
-
+        queue = Volley.newRequestQueue(this);
         setInput();
     }
 
@@ -44,15 +57,57 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+
         if(v.getId()==R.id.loginbtn)
         {
 
-            setActionForLogin();
+            verifyUser();
         }
 
     }
 
-        protected void setActionForLogin()
+    protected void verifyUser()
+    {
+        String drivernums= this.input_Name.getText().toString();
+        String pass= this.input_Pass.getText().toString();
+        String url= Constantvalue.urlhead+"m_login?drivernums="+drivernums+"&pass="+pass;
+        queue = Volley.newRequestQueue(this);
+        JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    if(response.getString("statue").equals("true")) {
+
+                        Toast t = Toast.makeText(Login.this, "登录成功", Toast.LENGTH_LONG);
+                        t.setDuration(5);
+                        t.show();
+                        setActionForLogin();
+                    }else{
+
+                        Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
+                        t.setDuration(5);
+                        t.show();
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
+                t.setDuration(5);
+                t.show();
+            }
+        });
+        queue.add(jr);
+
+    }
+
+
+
+    protected void setActionForLogin()
     {
 
         Intent intent=new Intent(Login.this,Register.class);
