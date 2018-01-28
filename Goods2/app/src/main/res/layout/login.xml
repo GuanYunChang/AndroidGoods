@@ -11,7 +11,7 @@
     android:layout_margin="0dp"
     android:layout_marginTop="0px"
     android:id="@+id/containt"
-
+    android:background="@drawable/login"
     >
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginTop="50dp"
-        android:text="电话"
+        android:text="编码"
         android:layout_marginLeft="50dp"
 
         android:layout_below="@+id/bar"
@@ -45,7 +45,7 @@
        android:layout_alignTop="@+id/namelabel"
         android:layout_toRightOf="@+id/namelabel"
         android:background="@drawable/edit_bg"
-        android:inputType="phone"
+        android:inputType="text"
        />
 
 
@@ -78,13 +78,13 @@
 
 
         />
-    <Button
+  <!--  <Button
         android:id="@+id/register"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="注册"
         android:layout_below="@+id/loginbtn"
         android:layout_marginTop="100dp"
-        />
+        />-->
 </RelativeLayout>
 

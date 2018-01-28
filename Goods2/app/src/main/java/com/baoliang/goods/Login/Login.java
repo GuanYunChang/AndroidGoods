@@ -1,7 +1,7 @@
 package com.baoliang.goods.Login;
-
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.baoliang.goods.MainPage.MainPage;
 import com.baoliang.goods.R;
 import com.baoliang.goods.Register.Register;
 import com.baoliang.goods.Tools.Constantvalue;
@@ -39,18 +40,26 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private EditText input_Pass;
     private Button   loginBtn;
     private TextView bar;
-    private Button   registerBtn;
+    //private Button   registerBtn;
     private RequestQueue queue;
+    private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        if(getSupportActionBar()!=null)
+        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
+        if(!sp.getString("statue","NULL").equals("true")) {
+            setContentView(R.layout.login);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().hide();
+            }
+            queue = Volley.newRequestQueue(this);
+            setInput();
+        }else
         {
-            getSupportActionBar().hide();
+
+            setActionForLogin();
         }
-        queue = Volley.newRequestQueue(this);
-        setInput();
+
     }
 
 
@@ -66,10 +75,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    /**
+     * 用户的验证
+     */
     protected void verifyUser()
     {
-        String drivernums= this.input_Name.getText().toString();
-        String pass= this.input_Pass.getText().toString();
+        final String drivernums= this.input_Name.getText().toString();
+        final String pass= this.input_Pass.getText().toString();
         String url= Constantvalue.urlhead+"m_login?drivernums="+drivernums+"&pass="+pass;
         queue = Volley.newRequestQueue(this);
         JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>() {
@@ -83,13 +95,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                         t.setDuration(5);
                         t.show();
                         setActionForLogin();
+                        Constantvalue.drivernum=drivernums;
+                        //自动登录设置
+                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit=sp.edit();
+                        edit.putString("drivernums",drivernums);
+                        edit.putString("pass",pass);
+                        edit.putString("statue","true");
+                        edit.commit();
                     }else{
 
                         Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
                         t.setDuration(5);
                         t.show();
+                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit=sp.edit();
+                        edit.putString("statue","false");
                     }
                 } catch (JSONException e) {
+
+                    Toast t= Toast.makeText(Login.this, "程序错误", Toast.LENGTH_LONG);
+                    t.setDuration(5);
+                    t.show();
 
                 }
             }
@@ -106,21 +133,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
 
-
+    /**
+     * 页面的跳转
+     */
     protected void setActionForLogin()
     {
 
-        Intent intent=new Intent(Login.this,Register.class);
+        Intent intent=new Intent(Login.this, MainPage.class);
         startActivity(intent);
+        //this.finish();
     }
-
-    protected void setActionForRegister()
-    {
-
-    }
-
-
-
 
     /**
      * 设置输入框与标签
@@ -137,7 +159,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         this.bar.setBackgroundColor(Color.BLUE);
 
         //姓名输入框
-        SpannableString namestr =  new SpannableString("请输入电话");
+        SpannableString namestr =  new SpannableString("请输入编码");
         this.input_Name = (EditText)findViewById(R.id.nameinput);
         namestr.setSpan(abspan, 0, namestr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.input_Name.setHintTextColor(Color.GRAY);
@@ -164,11 +186,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         this.loginBtn.setLayoutParams(btnlayout);
         this.loginBtn.setOnClickListener(this);
 
-
-        this.registerBtn=(Button)findViewById(R.id.register);
+        /*this.registerBtn=(Button)findViewById(R.id.register);
         RelativeLayout.LayoutParams reglayout=(RelativeLayout.LayoutParams)this.registerBtn.getLayoutParams();
         reglayout.setMargins((int)btnmarginleft,100,(int)btnmarginleft,0);
-        this.registerBtn.setLayoutParams(reglayout);
+        this.registerBtn.setLayoutParams(reglayout);*/
     }
 
 
@@ -202,5 +223,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(v, 0);
     }
+
+
+
 
 }
