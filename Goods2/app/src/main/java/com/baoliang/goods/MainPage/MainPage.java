@@ -10,11 +10,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.baoliang.goods.Model.ApplicationNotFinished;
 import com.baoliang.goods.R;
+
+import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ArrayList<ApplicationNotFinished>list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,41 @@ public class MainPage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //设置ViewList
+        setViewlist1();
+
+    }
+
+
+
+    /**
+     * 设置listView1
+     */
+    public void setViewlist1()
+    {
+        list=new ArrayList<ApplicationNotFinished>();
+        for(int i=0;i<20;i++) {
+            ApplicationNotFinished ap1 = new ApplicationNotFinished("a"+i, "t"+i);
+
+            list.add(ap1);
+
+        }
+        setdatalistAdapter adapter=new setdatalistAdapter(this,R.layout.content_main_page,list);
+        ListView sp=(ListView) findViewById(R.id.content1);
+
+        sp.setAdapter(adapter);
+        sp.setSelection(0);
+        sp.setOnItemClickListener(new MySelectedListener());
+
+    }
+
+    private class MySelectedListener implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainPage.this,"点击"+position,Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

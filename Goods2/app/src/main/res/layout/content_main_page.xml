@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.baoliang.goods.MainPage.MainPage"
-    tools:showIn="@layout/app_bar_main_page">
-<TextView
-    android:layout_width="300dp"
-    android:layout_height="100dp"
-    android:text="content1"
-    />
-</RelativeLayout>
+    android:id="@+id/datalist1"
+    >
+        <TextView
+            android:id="@+id/acnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left|center"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:text="content1"
+            />
+        <TextView
+            android:id="@+id/boss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="left|center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            android:text="content1"
+            />
+
+
+
+
+</LinearLayout>

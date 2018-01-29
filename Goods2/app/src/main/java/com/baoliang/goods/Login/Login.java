@@ -46,21 +46,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
-//        if(!sp.getString("statue","NULL").equals("true")) {
             setContentView(R.layout.login);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().hide();
 
           }
-//            queue = Volley.newRequestQueue(this);
             setInput();
-      //  }else
-      //  {
-
-            //setActionForLogin();
-       // }
-
     }
 
 
@@ -142,7 +133,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         Intent intent=new Intent(Login.this, MainPage.class);
         startActivity(intent);
-        //this.finish();
+
     }
 
     /**
