@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baoliang.goods.Model.ApplicationNotFinished;
+import com.baoliang.goods.Model.ApplicationFinished;
 import com.baoliang.goods.R;
 
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ public class setdatalistAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private Context mContext;
     private int mLayoutId;
-    private ArrayList<ApplicationNotFinished> Aplist;
+    private ArrayList<ApplicationFinished> Aplist;
 
 
-    public setdatalistAdapter(Context contxt,int layout_id,ArrayList<ApplicationNotFinished> aplist){
+    public setdatalistAdapter(Context contxt,int layout_id,ArrayList<ApplicationFinished> aplist){
 
         mInflater=LayoutInflater.from(contxt);
         mContext=contxt;
@@ -58,14 +58,29 @@ public class setdatalistAdapter extends BaseAdapter {
             holder.listlayout=convertView.findViewById(R.id.datalist1);
             holder.acnum=convertView.findViewById(R.id.acnum);
             holder.boss=convertView.findViewById(R.id.boss);
+            holder.phone=convertView.findViewById(R.id.phone);
+            holder.goods=convertView.findViewById(R.id.goods);
+            holder.start=convertView.findViewById(R.id.start);
+            holder.destination=convertView.findViewById(R.id.destination);
+            holder.drivernum=convertView.findViewById(R.id.drivernum);
+            holder.car=convertView.findViewById(R.id.car);
+            holder.weight=convertView.findViewById(R.id.weight);
+
             convertView.setTag(holder);
         }else{
 
             holder=(ViewHolder)convertView.getTag();
         }
-        ApplicationNotFinished apnf=Aplist.get(position);
+        ApplicationFinished apnf=Aplist.get(position);
         holder.acnum.setText(apnf.acnum);
         holder.boss.setText(apnf.boss);
+        holder.phone.setText(apnf.phone);
+        holder.goods.setText(apnf.goods);
+        holder.start.setText(apnf.start);
+        holder.destination.setText(apnf.destination);
+        holder.drivernum.setText(apnf.drivernum);
+        holder.car.setText(apnf.car);
+        holder.weight.setText(apnf.weight);
        return convertView;
     }
 
@@ -74,6 +89,13 @@ public class setdatalistAdapter extends BaseAdapter {
         private LinearLayout listlayout;
         public TextView acnum;
         public TextView boss;
+        public TextView phone;
+        public TextView goods;
+        public TextView start;
+        public TextView destination;
+        public TextView drivernum;
+        public TextView car;
+        public TextView weight;
 
     }
 

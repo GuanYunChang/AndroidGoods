@@ -14,7 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.baoliang.goods.Model.ApplicationNotFinished;
+import com.android.volley.RequestQueue;
+import com.baoliang.goods.Model.ApplicationFinished;
 import com.baoliang.goods.R;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ import java.util.ArrayList;
 public class MainPage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<ApplicationNotFinished>list;
-
+    ArrayList<ApplicationFinished>list=new ArrayList<ApplicationFinished>();
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class MainPage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         findViewById(R.id.content2).setVisibility(View.GONE);
+        findViewById(R.id.userinfo).setVisibility(View.GONE);
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,16 +57,66 @@ public class MainPage extends AppCompatActivity
 
     }
 
+    public void GetFinished()
+    {
+        /*String url= Constantvalue.urlhead+"m_login?drivernums="+drivernums+"&pass="+pass;
+        queue = Volley.newRequestQueue(this);
+        JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
 
+                try {
+                    if(response.getString("statue").equals("true")) {
+
+                        Toast t = Toast.makeText(Login.this, "登录成功", Toast.LENGTH_LONG);
+                        t.setDuration(5);
+                        t.show();
+                        setActionForLogin();
+                        Constantvalue.drivernum=drivernums;
+                        //自动登录设置
+                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit=sp.edit();
+                        edit.putString("drivernums",drivernums);
+                        edit.putString("pass",pass);
+                        edit.putString("statue","true");
+                        edit.commit();
+                    }else{
+
+                        Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
+                        t.setDuration(5);
+                        t.show();
+                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit=sp.edit();
+                        edit.putString("statue","false");
+                    }
+                } catch (JSONException e) {
+
+                    Toast t= Toast.makeText(Login.this, "程序错误", Toast.LENGTH_LONG);
+                    t.setDuration(5);
+                    t.show();
+
+                }
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
+                t.setDuration(5);
+                t.show();
+            }
+        });
+        queue.add(jr);
+*/
+    }
 
     /**
      * 设置listView1
      */
     public void setViewlist1()
     {
-        list=new ArrayList<ApplicationNotFinished>();
+
         for(int i=0;i<20;i++) {
-            ApplicationNotFinished ap1 = new ApplicationNotFinished("a"+i, "t"+i);
+            ApplicationFinished ap1 = new ApplicationFinished("a"+i, "t"+i,"aaaa","aaaa","aaaa","aaaa","aaaa","aaaa","aaaa");
 
             list.add(ap1);
 
@@ -128,12 +180,15 @@ public class MainPage extends AppCompatActivity
         if (id == R.id.nav_camera) {
             findViewById(R.id.content1).setVisibility(View.VISIBLE);
             findViewById(R.id.content2).setVisibility(View.GONE);
-
+            findViewById(R.id.userinfo).setVisibility(View.GONE);
         } else if (id == R.id.nav_gallery) {
             findViewById(R.id.content1).setVisibility(View.GONE);
             findViewById(R.id.content2).setVisibility(View.VISIBLE);
+            findViewById(R.id.userinfo).setVisibility(View.GONE);
         } else if (id == R.id.nav_slideshow) {
-
+            findViewById(R.id.userinfo).setVisibility(View.VISIBLE);
+            findViewById(R.id.content1).setVisibility(View.GONE);
+            findViewById(R.id.content2).setVisibility(View.GONE);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

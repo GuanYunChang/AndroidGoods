@@ -27,5 +27,5 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.android.support:support-v4:27.+'
     compile 'com.android.support:design:27.+'
-    compile 'com.github.romainguy:ViewServer:017c01cd512cac3ec054d9eee05fc48c5a9d2de'
+    //compile 'com.github.romainguy:ViewServer:017c01cd512cac3ec054d9eee05fc48c5a9d2de'
 }
