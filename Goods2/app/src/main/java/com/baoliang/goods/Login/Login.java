@@ -55,16 +55,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
           }
             setInput();
 
-
-        if(!(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+//获取定位权限
+        if(!(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)||!(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
         {
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
-        if(!(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
-        {
-
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
 
@@ -74,14 +69,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            int grantResult = grantResults[0];
-            boolean granted = grantResult == PackageManager.PERMISSION_GRANTED;
-            Toast.makeText(Login.this, "权限成功", Toast.LENGTH_LONG);
-        }else
-        {
-            Toast.makeText(Login.this, "权限失败", Toast.LENGTH_LONG);
-        }
+
     }
 
     @Override

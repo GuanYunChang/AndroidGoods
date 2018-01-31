@@ -29,7 +29,7 @@
         android:layout_gravity="top|left"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/white"
         android:orientation="horizontal" >
 
         <RadioButton
@@ -37,21 +37,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="gpsloacte"
+            android:text="定位模式"
             android:textColor="@android:color/black" />
 
         <RadioButton
             android:id="@+id/gps_follow_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="gpsfollow"
+            android:text="跟随定位"
             android:textColor="@android:color/black" />
 
         <RadioButton
             android:id="@+id/gps_rotate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="gpsrotate"
+            android:text="地图旋转跟随定位"
             android:textColor="@android:color/black" />
     </RadioGroup>
 
