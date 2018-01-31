@@ -11,6 +11,12 @@
     </com.amap.api.maps.MapView>
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/locationTxtView"
+        android:layout_marginTop="50dp"
+        />
+    <TextView
         android:id="@+id/location_errInfo_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

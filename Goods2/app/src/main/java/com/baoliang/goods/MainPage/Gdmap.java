@@ -1,13 +1,15 @@
 package com.baoliang.goods.MainPage;
 
 import android.app.Activity;
+import android.app.TaskStackBuilder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -15,10 +17,23 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DriveRouteResult;
+import com.amap.api.services.route.RideRouteResult;
+import com.amap.api.services.route.RouteSearch;
+import com.amap.api.services.route.WalkRouteResult;
 import com.baoliang.goods.R;
 
 public class Gdmap extends Activity implements LocationSource,
-        AMapLocationListener ,OnCheckedChangeListener{
+        AMapLocationListener ,OnCheckedChangeListener,AMap.OnMapLongClickListener,GeocodeSearch.OnGeocodeSearchListener ,RouteSearch.OnRouteSearchListener{
     private AMap aMap;
     private MapView mapView;
     // 处理定位更新
@@ -30,6 +45,7 @@ public class Gdmap extends Activity implements LocationSource,
     private RadioGroup mGPSModeGroup;
 
     private TextView mLocationErrText;
+    GeocodeSearch geocoderSearch =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +80,12 @@ public class Gdmap extends Activity implements LocationSource,
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
         aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+        aMap.setOnMapLongClickListener(this);
+        geocoderSearch = new GeocodeSearch(this);
+        //设置逆地理编码
+        geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(this);
+
     }
 
     @Override
@@ -135,6 +157,8 @@ public class Gdmap extends Activity implements LocationSource,
                     && amapLocation.getErrorCode() == 0) {
                 mLocationErrText.setVisibility(View.GONE);
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
+                TextView locationTxt=findViewById(R.id.locationTxtView);
+                locationTxt.setText(amapLocation.getAddress());
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
                 Log.e("AmapErr",errText);
@@ -179,4 +203,48 @@ public class Gdmap extends Activity implements LocationSource,
         }
         mlocationClient = null;
     }
+
+
+
+    /**
+     * 对单击地图事件回调
+     */
+    LatLng placepoint;
+    @Override
+    public void onMapLongClick(LatLng point) {
+        placepoint=point;
+        RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(point.latitude,point.longitude), 200,GeocodeSearch.AMAP);
+
+        geocoderSearch.getFromLocationAsyn(query);
+
+
+    }
+
+
+
+
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
+
+        Marker marker = aMap.addMarker(new MarkerOptions().position(placepoint).title("信息").snippet(result.getRegeocodeAddress().getProvince()+","+result.getRegeocodeAddress().getCity()));
+        marker.showInfoWindow();
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult result, int rCode) {
+    }
+
+//路线规划
+    public void onBusRouteSearched(BusRouteResult var1, int var2){}
+
+    public void onDriveRouteSearched(DriveRouteResult var1, int var2){}
+
+    public void onWalkRouteSearched(WalkRouteResult var1, int var2){}
+    @Override
+    public void onPrepareNavigateUpTaskStack(TaskStackBuilder builder) {
+
+    }
+
+    public void onRideRouteSearched(RideRouteResult var1, int var2){}
 }

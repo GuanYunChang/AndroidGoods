@@ -42,5 +42,5 @@ dependencies {
     compile 'com.amap.api:search:5.7.0'
     //权限检测
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
-    //compile 'com.amap.api:navi-3dmap:latest.integration'
+    compile 'com.amap.api:navi-3dmap:latest.integration'
 }
