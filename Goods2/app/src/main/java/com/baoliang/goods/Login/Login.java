@@ -1,7 +1,10 @@
 package com.baoliang.goods.Login;
+
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +30,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.baoliang.goods.MainPage.MainPage;
 import com.baoliang.goods.R;
-import com.baoliang.goods.Register.Register;
 import com.baoliang.goods.Tools.Constantvalue;
 import com.baoliang.goods.Tools.DisplayUtils;
 
@@ -52,9 +54,35 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
           }
             setInput();
+
+
+        if(!(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+        {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
+        if(!(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+        {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+
+
+
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            int grantResult = grantResults[0];
+            boolean granted = grantResult == PackageManager.PERMISSION_GRANTED;
+            Toast.makeText(Login.this, "权限成功", Toast.LENGTH_LONG);
+        }else
+        {
+            Toast.makeText(Login.this, "权限失败", Toast.LENGTH_LONG);
+        }
+    }
 
     @Override
     public void onClick(View v) {

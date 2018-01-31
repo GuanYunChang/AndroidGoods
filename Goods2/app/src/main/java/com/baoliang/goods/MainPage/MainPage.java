@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amap.api.maps.MapView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -38,7 +39,7 @@ public class MainPage extends AppCompatActivity
 
     ArrayList<ApplicationFinished>list=new ArrayList<ApplicationFinished>();
     private RequestQueue queue;
-
+    MapView mMapView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

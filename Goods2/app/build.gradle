@@ -37,7 +37,10 @@ dependencies {
     //compile 'com.github.romainguy:ViewServer:017c01cd512cac3ec054d9eee05fc48c5a9d2de'
 //高德地图
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.amap.api:3dmap:5.0.0'
-    compile 'com.amap.api:location:3.3.0'
-    compile 'com.amap.api:search:5.0.0'
+    compile 'com.amap.api:3dmap:5.7.0'
+    compile 'com.amap.api:location:latest.integration'
+    compile 'com.amap.api:search:5.7.0'
+    //权限检测
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    //compile 'com.amap.api:navi-3dmap:latest.integration'
 }
