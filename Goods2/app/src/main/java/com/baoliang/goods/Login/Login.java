@@ -86,8 +86,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                         Toast t = Toast.makeText(Login.this, "登录成功", Toast.LENGTH_LONG);
                         t.setDuration(5);
                         t.show();
-                        setActionForLogin();
                         Constantvalue.drivernum=drivernums;
+                        setActionForLogin();
+
                         //自动登录设置
                         sp=getSharedPreferences("user", Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit=sp.edit();

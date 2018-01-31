@@ -49,6 +49,7 @@ public class setdatalistAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+
         ViewHolder holder=null;
         if(convertView==null)
         {
@@ -58,29 +59,38 @@ public class setdatalistAdapter extends BaseAdapter {
             holder.listlayout=convertView.findViewById(R.id.datalist1);
             holder.acnum=convertView.findViewById(R.id.acnum);
             holder.boss=convertView.findViewById(R.id.boss);
-            holder.phone=convertView.findViewById(R.id.phone);
             holder.goods=convertView.findViewById(R.id.goods);
             holder.start=convertView.findViewById(R.id.start);
             holder.destination=convertView.findViewById(R.id.destination);
-            holder.drivernum=convertView.findViewById(R.id.drivernum);
-            holder.car=convertView.findViewById(R.id.car);
             holder.weight=convertView.findViewById(R.id.weight);
-
+            holder.phone=convertView.findViewById(R.id.phone);
             convertView.setTag(holder);
         }else{
 
             holder=(ViewHolder)convertView.getTag();
         }
-        ApplicationFinished apnf=Aplist.get(position);
-        holder.acnum.setText(apnf.acnum);
-        holder.boss.setText(apnf.boss);
-        holder.phone.setText(apnf.phone);
-        holder.goods.setText(apnf.goods);
-        holder.start.setText(apnf.start);
-        holder.destination.setText(apnf.destination);
-        holder.drivernum.setText(apnf.drivernum);
-        holder.car.setText(apnf.car);
-        holder.weight.setText(apnf.weight);
+
+        if(position==0)
+        {
+            holder.acnum.setText("单号");
+            holder.boss.setText("订单人");
+            holder.phone.setText("电话");
+            holder.goods.setText("货物");
+            holder.start.setText("始发地");
+            holder.destination.setText("目的地");
+            holder.weight.setText("重量");
+
+        }else {
+
+            ApplicationFinished apnf = Aplist.get(position);
+            holder.acnum.setText(apnf.acnum);
+            holder.boss.setText(apnf.boss);
+            holder.phone.setText(apnf.phone);
+            holder.goods.setText(apnf.goods);
+            holder.start.setText(apnf.start);
+            holder.destination.setText(apnf.destination);
+            holder.weight.setText(apnf.weight);
+        }
        return convertView;
     }
 
@@ -93,8 +103,6 @@ public class setdatalistAdapter extends BaseAdapter {
         public TextView goods;
         public TextView start;
         public TextView destination;
-        public TextView drivernum;
-        public TextView car;
         public TextView weight;
 
     }

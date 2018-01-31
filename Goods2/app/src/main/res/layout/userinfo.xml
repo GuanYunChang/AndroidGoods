@@ -13,8 +13,8 @@
     tools:context="com.baoliang.goods.MainPage.MainPage"
     tools:showIn="@layout/app_bar_main_page">
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize"
         >
         <RelativeLayout
@@ -31,26 +31,93 @@
         android:layout_height="30dp"
         android:layout_marginLeft="150dp"
         android:background="@drawable/edit_bg"
-        android:id="@+id/drivernum"
+        android:id="@+id/driverinfonum"
         android:layout_marginTop="30dp"
+        android:editable="false"
         />
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:layout_below="@id/drivernum"
+                android:layout_below="@id/driverinfonum"
                 android:layout_marginTop="20dp"
                 android:text="电话"
-                android:id="@+id/phonelabel"
+                android:id="@+id/phoneinfolabel"
 
                 />
             <EditText
                 android:layout_width="200dp"
                 android:layout_height="30dp"
-                android:layout_below="@id/drivernum"
-                android:layout_toEndOf="@id/phonelabel"
+                android:layout_below="@id/driverinfonum"
+                android:layout_toEndOf="@id/phoneinfolabel"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edit_bg"
+                android:id="@+id/phoneinfo"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/phoneinfolabel"
+                android:layout_marginTop="20dp"
+                android:text="姓名"
+                android:id="@+id/nameinfolabel"
+
+                />
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/phoneinfo"
+                android:layout_toEndOf="@id/nameinfolabel"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_bg"
+                android:id="@+id/nameinfonum"
+
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/nameinfolabel"
+                android:text="密码"
+                android:layout_marginTop="20dp"
+                android:id="@+id/passinfolabel"
+                />
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/nameinfolabel"
+                android:background="@drawable/edit_bg"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/passinfolabel"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/passinfonum"
+
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/passinfolabel"
+                android:layout_marginTop="20dp"
+                android:text="车牌"
+                android:id="@+id/carinfonumlabel"
+                />
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_toEndOf="@id/carinfonumlabel"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/passinfolabel"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/edit_bg"
+                android:id="@+id/carninfonum"
+                />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/carinfonumlabel"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:text="提交"
                 />
         </RelativeLayout>
     </ScrollView>

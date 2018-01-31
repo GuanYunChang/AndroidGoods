@@ -8,6 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:id="@+id/datalist1"
     >
+
         <TextView
             android:id="@+id/acnum"
             android:layout_width="wrap_content"
@@ -15,7 +16,7 @@
             android:layout_weight="1"
             android:gravity="left|center"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"
+            android:textSize="13sp"
             android:text="content1"
             />
         <TextView
@@ -28,23 +29,14 @@
             android:textSize="13sp"
             android:text="content1"
             />
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="left|center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="13sp"
-            android:text="content1"
-            />
+
         <TextView
             android:id="@+id/goods"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="left|center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             android:textSize="13sp"
             android:text="content1"
             />
@@ -54,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="left|center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/green"
             android:textSize="13sp"
             android:text="content1"
             />
@@ -64,42 +56,32 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="left|center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="13sp"
-            android:text="content1"
-            />
-        <TextView
-            android:id="@+id/drivernum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="left|center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/orange"
             android:textSize="13sp"
             android:text="content1"
             />
 
-        <TextView
-            android:id="@+id/car"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="left|center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="13sp"
-            android:text="content1"
-            />
+
+
         <TextView
             android:id="@+id/weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="left|center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             android:textSize="13sp"
             android:text="content1"
             />
-
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"
+                    android:text="content1" />
 
 
 

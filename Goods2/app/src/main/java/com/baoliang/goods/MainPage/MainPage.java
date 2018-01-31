@@ -1,5 +1,7 @@
 package com.baoliang.goods.MainPage;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,14 +11,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.baoliang.goods.Model.ApplicationFinished;
+import com.baoliang.goods.Model.Driver;
 import com.baoliang.goods.R;
+import com.baoliang.goods.Tools.Constantvalue;
+import com.baoliang.goods.Tools.GetUserData;
+import com.baoliang.goods.Tools.JsonTools;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -26,10 +39,12 @@ public class MainPage extends AppCompatActivity
     ArrayList<ApplicationFinished>list=new ArrayList<ApplicationFinished>();
     private RequestQueue queue;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         findViewById(R.id.content2).setVisibility(View.GONE);
@@ -53,77 +68,90 @@ public class MainPage extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //设置ViewList
-        setViewlist1();
+        GetFinished();
+
+    }
+
+    //设置高德地图
+    void setGdmap()
+    {
+
+        Intent intent=new Intent(MainPage.this,Gdmap.class);
+        startActivity(intent);
 
     }
 
     public void GetFinished()
     {
-        /*String url= Constantvalue.urlhead+"m_login?drivernums="+drivernums+"&pass="+pass;
-        queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>() {
+        String urltail="m_getFinishedAp?drivernums="+ Constantvalue.drivernum;
+        GetUserData.GeData(urltail, this, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
+                list.clear();
 
-                try {
-                    if(response.getString("statue").equals("true")) {
-
-                        Toast t = Toast.makeText(Login.this, "登录成功", Toast.LENGTH_LONG);
-                        t.setDuration(5);
-                        t.show();
-                        setActionForLogin();
-                        Constantvalue.drivernum=drivernums;
-                        //自动登录设置
-                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit=sp.edit();
-                        edit.putString("drivernums",drivernums);
-                        edit.putString("pass",pass);
-                        edit.putString("statue","true");
-                        edit.commit();
-                    }else{
-
-                        Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
-                        t.setDuration(5);
-                        t.show();
-                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit=sp.edit();
-                        edit.putString("statue","false");
-                    }
-                } catch (JSONException e) {
-
-                    Toast t= Toast.makeText(Login.this, "程序错误", Toast.LENGTH_LONG);
-                    t.setDuration(5);
-                    t.show();
+              ArrayList<JSONObject> job= JsonTools.AnaylyzeTheJsonStringToJsonObjectArrayList(response,MainPage.this);
+                int cont=job.size();
+                for(int i=0;i<job.size();i++) {
+                    ApplicationFinished ap = new ApplicationFinished(job.get(i));
+                    list.add(ap);
 
                 }
+                setViewlist1();
             }
-        },new Response.ErrorListener() {
+
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
-                t.setDuration(5);
-                t.show();
+
+                Toast.makeText(MainPage.this,"错误",Toast.LENGTH_SHORT);
+
             }
         });
-        queue.add(jr);
-*/
     }
 
+    /**
+     * 获取用户信息
+     */
+    public void GetUserinfo()
+    {
+
+        String urltail="getUserData?drivernums="+ Constantvalue.drivernum;
+        GetUserData.GeData(urltail, this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                ArrayList<JSONObject> job= JsonTools.AnaylyzeTheJsonStringToJsonObjectArrayList(response,MainPage.this);
+                Driver info=new Driver(job.get(0));
+                EditText drivernum=(EditText)findViewById(R.id.driverinfonum);
+                drivernum.setText(info.drivernums);
+                EditText phone=findViewById(R.id.phoneinfo);
+                phone.setText(info.phone);
+                EditText name=findViewById(R.id.nameinfonum);
+                name.setText(info.name);
+                EditText  pass=findViewById(R.id.passinfonum);
+                pass.setText(info.pass);
+                EditText  carnum=findViewById(R.id.carninfonum);
+                carnum.setText(info.carnum);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(MainPage.this,"错误",Toast.LENGTH_SHORT);
+
+            }
+        });
+
+    }
     /**
      * 设置listView1
      */
     public void setViewlist1()
     {
 
-        for(int i=0;i<20;i++) {
-            ApplicationFinished ap1 = new ApplicationFinished("a"+i, "t"+i,"aaaa","aaaa","aaaa","aaaa","aaaa","aaaa","aaaa");
-
-            list.add(ap1);
-
-        }
         setdatalistAdapter adapter=new setdatalistAdapter(this,R.layout.content_main_page,list);
         ListView sp=(ListView) findViewById(R.id.content1);
-
         sp.setAdapter(adapter);
         sp.setSelection(0);
         sp.setOnItemClickListener(new MySelectedListener());
@@ -178,22 +206,38 @@ public class MainPage extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            GetFinished();
             findViewById(R.id.content1).setVisibility(View.VISIBLE);
             findViewById(R.id.content2).setVisibility(View.GONE);
             findViewById(R.id.userinfo).setVisibility(View.GONE);
+
         } else if (id == R.id.nav_gallery) {
             findViewById(R.id.content1).setVisibility(View.GONE);
             findViewById(R.id.content2).setVisibility(View.VISIBLE);
             findViewById(R.id.userinfo).setVisibility(View.GONE);
+
         } else if (id == R.id.nav_slideshow) {
-            findViewById(R.id.userinfo).setVisibility(View.VISIBLE);
+
             findViewById(R.id.content1).setVisibility(View.GONE);
             findViewById(R.id.content2).setVisibility(View.GONE);
+            findViewById(R.id.userinfo).setVisibility(View.VISIBLE);
+
+            GetUserinfo();
+
         } else if (id == R.id.nav_manage) {
+            findViewById(R.id.content1).setVisibility(View.GONE);
+            findViewById(R.id.content2).setVisibility(View.GONE);
+            findViewById(R.id.userinfo).setVisibility(View.GONE);
 
-        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        }else if(id==R.id.map)
+        {
+
+            setGdmap();
+            findViewById(R.id.content1).setVisibility(View.GONE);
+            findViewById(R.id.content2).setVisibility(View.GONE);
+            findViewById(R.id.userinfo).setVisibility(View.GONE);
+
 
         }
 
@@ -201,4 +245,40 @@ public class MainPage extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+
+
+    /**
+     * 点击空白区域隐藏键盘.
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (MainPage.this.getCurrentFocus() != null) {
+                if (MainPage.this.getCurrentFocus().getWindowToken() != null) {
+                    imm.hideSoftInputFromWindow(MainPage.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+
+    /**隐藏键盘 */
+    protected void hideInputKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    /**弹起键盘 */
+    protected void showInputKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(v, 0);
+    }
+
+
 }
