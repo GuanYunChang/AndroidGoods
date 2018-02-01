@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,11 +38,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener {
 
     ArrayList<ApplicationFinished>list=new ArrayList<ApplicationFinished>();
     private RequestQueue queue;
     MapView mMapView = null;
+    NavigationView navigationView=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class MainPage extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //设置ViewList
@@ -214,6 +216,99 @@ public class MainPage extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+    public void setnavigator()
+    {
+
+        View header = LayoutInflater.from(this).inflate(R.layout.nav_header_main_page, null);
+        navigationView.removeHeaderView(navigationView.getHeaderView(0));
+        navigationView.addHeaderView(header);
+        //TextView text = (TextView) header.findViewById(R.id.nav_header_acnum);
+        //texto.setText("HELLO");
+        ((TextView)header.findViewById(R.id.nav_header_acnum)).setText("订单号:无");
+        ((TextView)header.findViewById(R.id.nav_header_titile)).setText("正在进行");
+        ((TextView)header.findViewById(R.id.nav_header_place)).setText("始发地:无;目的地:无");
+    }
+
+    /**
+     * 设置当前订单完成
+     */
+    public void setApfinish()
+    {
+
+        String urltail="m_setApplicationFinished?drivernums="+ Constantvalue.drivernum;
+        GetUserData.GeJsonObjectData(urltail, this, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    if(response.getString("statue").equals("ture")) {
+                        Constantvalue.apflag=false;
+                        Toast.makeText(MainPage.this, "成功", Toast.LENGTH_LONG).show();
+                        findViewById(R.id.content1).setVisibility(View.VISIBLE);
+                findViewById(R.id.content2).setVisibility(View.GONE);
+               findViewById(R.id.userinfo).setVisibility(View.GONE);
+                setnavigator();
+                    }else {
+
+                        Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+                    }
+
+
+                }catch (Exception e)
+                {
+                    Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+
+                }
+
+            }},new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+//        GetUserData.GeData(urltail, this, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//
+//                Toast.makeText(MainPage.this,"设置完成",Toast.LENGTH_SHORT);
+//
+//
+//            }
+//
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//                Toast.makeText(MainPage.this,"错误",Toast.LENGTH_SHORT);
+//                findViewById(R.id.content1).setVisibility(View.VISIBLE);
+//                findViewById(R.id.content2).setVisibility(View.GONE);
+//                findViewById(R.id.userinfo).setVisibility(View.GONE);
+//
+//            }
+//        });
+
+    }
+
+
+
+
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId()==R.id.setapstatuebtn)
+        {
+
+            setApfinish();
+        }
+
+    }
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -238,6 +333,8 @@ public class MainPage extends AppCompatActivity
                 ((TextView)findViewById(R.id.content2input_start)).setText(Constantvalue.start);
                 ((TextView)findViewById(R.id.content2input_destination)).setText(Constantvalue.destination);
                 ((TextView)findViewById(R.id.content2input_weight)).setText(Constantvalue.weight);
+                ((Button)findViewById(R.id.setapstatuebtn)).setOnClickListener(MainPage.this);
+
             }else
             {
                 Toast.makeText(MainPage.this,"没有正在进行的任务",Toast.LENGTH_SHORT).show();

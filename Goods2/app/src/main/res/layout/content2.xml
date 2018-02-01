@@ -162,7 +162,14 @@
         android:layout_marginTop="20dp"
         android:editable="false"
         />
+<Button
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/setapstatuebtn"
+    android:text="设置"
 
+    />
 
 
 </RelativeLayout>
