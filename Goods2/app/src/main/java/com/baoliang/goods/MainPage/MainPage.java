@@ -231,6 +231,13 @@ public class MainPage extends AppCompatActivity
                 findViewById(R.id.content1).setVisibility(View.GONE);
                 findViewById(R.id.content2).setVisibility(View.VISIBLE);
                 findViewById(R.id.userinfo).setVisibility(View.GONE);
+                ((TextView)findViewById(R.id.content2input_acnum)).setText(Constantvalue.acnum);
+                ((TextView)findViewById(R.id.content2input_boss)).setText(Constantvalue.boss);
+                ((TextView)findViewById(R.id.content2input_phone)).setText(Constantvalue.phone);
+                ((TextView)findViewById(R.id.content2input_goods)).setText(Constantvalue.goods);
+                ((TextView)findViewById(R.id.content2input_start)).setText(Constantvalue.start);
+                ((TextView)findViewById(R.id.content2input_destination)).setText(Constantvalue.destination);
+                ((TextView)findViewById(R.id.content2input_weight)).setText(Constantvalue.weight);
             }else
             {
                 Toast.makeText(MainPage.this,"没有正在进行的任务",Toast.LENGTH_SHORT).show();
