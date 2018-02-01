@@ -32,7 +32,7 @@ public class setdatalistAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return Aplist.size();
+        return Aplist.size()+1;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class setdatalistAdapter extends BaseAdapter {
 
         }else {
 
-            ApplicationFinished apnf = Aplist.get(position);
+            ApplicationFinished apnf = Aplist.get(position-1);
             holder.acnum.setText(apnf.acnum);
             holder.boss.setText(apnf.boss);
             holder.phone.setText(apnf.phone);
@@ -91,7 +91,7 @@ public class setdatalistAdapter extends BaseAdapter {
             holder.destination.setText(apnf.destination);
             holder.weight.setText(apnf.weight);
         }
-       return convertView;
+        return convertView;
     }
 
     public final class ViewHolder{

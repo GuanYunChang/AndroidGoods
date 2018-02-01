@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/locationTxtView"
         android:layout_marginTop="50dp"
+        android:layout_gravity="bottom|left"
         />
     <TextView
         android:id="@+id/location_errInfo_text"
@@ -59,7 +60,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <RadioButton
             android:id="@+id/gps_locate_button"

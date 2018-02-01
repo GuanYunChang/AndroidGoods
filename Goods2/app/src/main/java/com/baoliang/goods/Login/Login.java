@@ -12,7 +12,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -29,12 +28,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.baoliang.goods.MainPage.MainPage;
+import com.baoliang.goods.Model.ApplicationFinished;
 import com.baoliang.goods.R;
 import com.baoliang.goods.Tools.Constantvalue;
 import com.baoliang.goods.Tools.DisplayUtils;
+import com.baoliang.goods.Tools.GetUserData;
+import com.baoliang.goods.Tools.JsonTools;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
@@ -48,13 +52,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            setContentView(R.layout.login);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().hide();
+        setContentView(R.layout.login);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
 
-          }
-            setInput();
-
+        }
+        setInput();
+        queue = Volley.newRequestQueue(this);
 //获取定位权限
         if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -127,7 +131,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         final String drivernums= this.input_Name.getText().toString();
         final String pass= this.input_Pass.getText().toString();
         String url= Constantvalue.urlhead+"m_login?drivernums="+drivernums+"&pass="+pass;
-        queue = Volley.newRequestQueue(this);
         JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -139,23 +142,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                         t.setDuration(5);
                         t.show();
                         Constantvalue.drivernum=drivernums;
-                        setActionForLogin();
+
 
                         //自动登录设置
-                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit=sp.edit();
-                        edit.putString("drivernums",drivernums);
-                        edit.putString("pass",pass);
-                        edit.putString("statue","true");
-                        edit.commit();
+
+                        setuserTask();
                     }else{
 
                         Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
                         t.setDuration(5);
                         t.show();
-                        sp=getSharedPreferences("user", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor edit=sp.edit();
-                        edit.putString("statue","false");
+
                     }
                 } catch (JSONException e) {
 
@@ -176,7 +173,49 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         queue.add(jr);
 
     }
+    public void setuserTask()
+    {
+        String urltail="m_getUserDoing?drivernums="+ Constantvalue.drivernum;
+        GetUserData.GeData(urltail, this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
 
+
+                ArrayList<JSONObject> job= JsonTools.AnaylyzeTheJsonStringToJsonObjectArrayList(response,Login.this);
+                if(job.size()!=0) {
+                    ApplicationFinished ap = new ApplicationFinished(job.get(0));
+                    Constantvalue.acnum = ap.acnum;
+                    Constantvalue.start = ap.start;
+                    Constantvalue.destination = ap.destination;
+                    Constantvalue.phone=ap.phone;
+                    Constantvalue.goods=ap.goods;
+                    Constantvalue.weight=ap.weight;
+                    Constantvalue.boss=ap.boss;
+                    Constantvalue.apflag=true;
+                    setActionForLogin();
+
+                }else
+                {
+
+                    Constantvalue.acnum ="无";
+                    Constantvalue.start="无";
+                    Constantvalue.destination="无";
+                    Constantvalue.apflag=false;
+                    setActionForLogin();
+                }
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(Login.this,"错误",Toast.LENGTH_SHORT);
+
+            }
+        });
+
+    }
 
     /**
      * 页面的跳转

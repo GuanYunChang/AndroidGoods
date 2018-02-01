@@ -135,7 +135,7 @@ public class Gdmap extends Activity implements LocationSource,
      * @param walkMode
      */
     public void workspace(RouteSearch.FromAndTo fromAndTo, int walkMode) {
-         RouteSearch routeSearch = new RouteSearch(this);
+        RouteSearch routeSearch = new RouteSearch(this);
         routeSearch.setRouteSearchListener(this);
         RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DRIVING_MULTI_CHOICE_HIGHWAY, null, null, "");
         routeSearch.calculateDriveRouteAsyn(query);//开始算路
@@ -290,7 +290,7 @@ public class Gdmap extends Activity implements LocationSource,
     public void onGeocodeSearched(GeocodeResult result, int rCode) {
     }
 
-//路线规划
+    //路线规划
     public void onBusRouteSearched(BusRouteResult var1, int var2){}
 
     public void onDriveRouteSearched(DriveRouteResult var1, int var2){

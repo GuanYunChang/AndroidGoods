@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -17,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.maps.MapView;
@@ -71,6 +73,18 @@ public class MainPage extends AppCompatActivity
         //设置ViewList
         GetFinished();
 
+
+
+        View header = LayoutInflater.from(this).inflate(R.layout.nav_header_main_page, null);
+        navigationView.removeHeaderView(navigationView.getHeaderView(0));
+        navigationView.addHeaderView(header);
+        //TextView text = (TextView) header.findViewById(R.id.nav_header_acnum);
+        //texto.setText("HELLO");
+        ((TextView)header.findViewById(R.id.nav_header_acnum)).setText("订单号:"+Constantvalue.acnum);
+        ((TextView)header.findViewById(R.id.nav_header_titile)).setText("正在进行");
+        ((TextView)header.findViewById(R.id.nav_header_place)).setText("始发地:"+Constantvalue.start+";目的地:"+Constantvalue.destination);
+
+
     }
 
     //设置高德地图
@@ -90,7 +104,7 @@ public class MainPage extends AppCompatActivity
             public void onResponse(String response) {
                 list.clear();
 
-              ArrayList<JSONObject> job= JsonTools.AnaylyzeTheJsonStringToJsonObjectArrayList(response,MainPage.this);
+                ArrayList<JSONObject> job= JsonTools.AnaylyzeTheJsonStringToJsonObjectArrayList(response,MainPage.this);
                 int cont=job.size();
                 for(int i=0;i<job.size();i++) {
                     ApplicationFinished ap = new ApplicationFinished(job.get(i));
@@ -163,7 +177,7 @@ public class MainPage extends AppCompatActivity
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainPage.this,"点击"+position,Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainPage.this,"点击"+position,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -213,9 +227,14 @@ public class MainPage extends AppCompatActivity
             findViewById(R.id.userinfo).setVisibility(View.GONE);
 
         } else if (id == R.id.nav_gallery) {
-            findViewById(R.id.content1).setVisibility(View.GONE);
-            findViewById(R.id.content2).setVisibility(View.VISIBLE);
-            findViewById(R.id.userinfo).setVisibility(View.GONE);
+            if(Constantvalue.apflag) {
+                findViewById(R.id.content1).setVisibility(View.GONE);
+                findViewById(R.id.content2).setVisibility(View.VISIBLE);
+                findViewById(R.id.userinfo).setVisibility(View.GONE);
+            }else
+            {
+                Toast.makeText(MainPage.this,"没有正在进行的任务",Toast.LENGTH_SHORT).show();
+            }
 
         } else if (id == R.id.nav_slideshow) {
 
