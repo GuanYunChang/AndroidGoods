@@ -9,28 +9,39 @@ import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdate;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.Polyline;
+import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveRouteResult;
+import com.amap.api.services.route.DriveStep;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.baoliang.goods.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Gdmap extends Activity implements LocationSource,
         AMapLocationListener ,OnCheckedChangeListener,AMap.OnMapLongClickListener,GeocodeSearch.OnGeocodeSearchListener ,RouteSearch.OnRouteSearchListener{
@@ -46,6 +57,14 @@ public class Gdmap extends Activity implements LocationSource,
 
     private TextView mLocationErrText;
     GeocodeSearch geocoderSearch =null;
+
+
+    /**
+     * 导航
+     */
+
+    private CameraUpdate cameraUpdate;
+    private AMapLocation currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +107,41 @@ public class Gdmap extends Activity implements LocationSource,
 
     }
 
+
+    private void setNavigator()
+    {
+
+        cameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),//新的中心点坐标
+                18, //新的缩放级别
+                0, //俯仰角0°~45°（垂直与地图时为0）
+                0  ////偏航角 0~360° (正北方为0)
+        ));
+        aMap.moveCamera(cameraUpdate);
+
+
+//120.49746,36.160792
+        Marker marker1 = aMap.addMarker(new MarkerOptions().position(new LatLng(36.160792,120.49746)).title("信息").snippet("中国海洋大学"));
+        marker1.showInfoWindow();
+
+        workspace(new RouteSearch.FromAndTo(new LatLonPoint(currentLocation.getLatitude(),currentLocation.getLongitude()), new LatLonPoint(36.160792,120.49746)), 1);
+
+
+    }
+
+    /**
+     * 计算路线
+     * @param fromAndTo
+     * @param walkMode
+     */
+    public void workspace(RouteSearch.FromAndTo fromAndTo, int walkMode) {
+         RouteSearch routeSearch = new RouteSearch(this);
+        routeSearch.setRouteSearchListener(this);
+        RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DRIVING_MULTI_CHOICE_HIGHWAY, null, null, "");
+        routeSearch.calculateDriveRouteAsyn(query);//开始算路
+    }
+
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
@@ -103,6 +157,8 @@ public class Gdmap extends Activity implements LocationSource,
                 // 设置定位的类型为根据地图面向方向旋转
                 aMap.setMyLocationType(AMap.LOCATION_TYPE_MAP_ROTATE);
                 break;
+            case R.id.gps_nav:
+                setNavigator();
         }
 
     }
@@ -159,6 +215,7 @@ public class Gdmap extends Activity implements LocationSource,
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
                 TextView locationTxt=findViewById(R.id.locationTxtView);
                 locationTxt.setText(amapLocation.getAddress());
+                currentLocation=amapLocation;
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
                 Log.e("AmapErr",errText);
@@ -183,10 +240,7 @@ public class Gdmap extends Activity implements LocationSource,
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             //设置定位参数
             mlocationClient.setLocationOption(mLocationOption);
-            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-            // 在定位结束后，在合适的生命周期调用onDestroy()方法
-            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+
             mlocationClient.startLocation();
         }
     }
@@ -218,6 +272,7 @@ public class Gdmap extends Activity implements LocationSource,
         geocoderSearch.getFromLocationAsyn(query);
 
 
+
     }
 
 
@@ -238,7 +293,49 @@ public class Gdmap extends Activity implements LocationSource,
 //路线规划
     public void onBusRouteSearched(BusRouteResult var1, int var2){}
 
-    public void onDriveRouteSearched(DriveRouteResult var1, int var2){}
+    public void onDriveRouteSearched(DriveRouteResult var1, int var2){
+        if (var2 == 1000) {//成功
+            List<DrivePath> list_path = var1.getPaths();
+            for (int i = 0; i < list_path.size(); i++) {
+                List<DriveStep> list_step = list_path.get(i).getSteps();
+                for (int j = 0; j < list_step.size(); j++) {
+                    List<LatLonPoint> listlatlone = list_step.get(j).getPolyline();
+                    //画线
+                    List<LatLng> latLngs = new ArrayList<LatLng>();
+                    for (int k = 0; k < listlatlone.size(); k++) {
+                        latLngs.add(new LatLng(listlatlone.get(k).getLatitude(), listlatlone.get(k).getLongitude()));
+
+                    }
+                    Polyline polyline = aMap.addPolyline(new PolylineOptions().
+                            addAll(latLngs)
+                            .width(20)//设置线宽度
+                            //.setUseTexture(true)//设置纹理贴图
+                            .setDottedLine(true)//设置虚线
+                            //.color(Color.argb(255, 77, 220, 38)));//设置线的颜色
+                            .color(0xff517efd));//设置线的颜色
+
+                }
+            }
+        } else {
+            Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+
+
+    }
+
+
+
+    public void doclick(View v) {
+        switch (v.getId()) {
+            case R.id.all_back_rl:
+                finish();
+                overridePendingTransition(R.anim.ap2_300, R.anim.ap2_100);// 淡出淡入动画效果
+                break;
+        }
+    }
 
     public void onWalkRouteSearched(WalkRouteResult var1, int var2){}
     @Override

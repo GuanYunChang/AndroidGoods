@@ -56,12 +56,48 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             setInput();
 
 //获取定位权限
-        if(!(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)||!(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+        if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
+        if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=PackageManager.PERMISSION_GRANTED)
+        {
 
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS) !=PackageManager.PERMISSION_GRANTED)
+        {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS}, 1);
+        }
+        if(checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) !=PackageManager.PERMISSION_GRANTED)
+        {
+
+            requestPermissions(new String[]{Manifest.permission.CHANGE_WIFI_STATE}, 1);
+        }
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) !=PackageManager.PERMISSION_GRANTED)
+        {
+
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) !=PackageManager.PERMISSION_GRANTED)
+        {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 1);
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE) !=PackageManager.PERMISSION_GRANTED)
+        {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_WIFI_STATE}, 1);
+
+        }
+        if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=PackageManager.PERMISSION_GRANTED)
+        {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+
+        }
 
 
     }
