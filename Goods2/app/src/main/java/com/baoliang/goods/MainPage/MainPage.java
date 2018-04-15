@@ -28,6 +28,7 @@ import com.amap.api.maps.MapView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.baoliang.goods.Login.Login;
 import com.baoliang.goods.Model.ApplicationFinished;
 import com.baoliang.goods.Model.Driver;
 import com.baoliang.goods.R;
@@ -181,7 +182,24 @@ public class MainPage extends AppCompatActivity
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(MainPage.this,"点击"+position,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainPage.this,"点击"+position,Toast.LENGTH_SHORT).show();
+
+            int local=position-1;
+            Intent intent = new Intent();
+            //Intent传递参数
+            String test=((ApplicationFinished)list.get(local)).recephone;
+            intent.putExtra("acnum",((ApplicationFinished)list.get(local)).acnum);
+            intent.putExtra("boss",((ApplicationFinished)list.get(local)).boss);
+            intent.putExtra("phone",((ApplicationFinished)list.get(local)).phone);
+            intent.putExtra("goods",((ApplicationFinished)list.get(local)).goods);
+            intent.putExtra("start",((ApplicationFinished)list.get(local)).start);
+            intent.putExtra("destination",((ApplicationFinished)list.get(local)).destination);
+            intent.putExtra("weight",((ApplicationFinished)list.get(local)).weight);
+            intent.putExtra("receiver",((ApplicationFinished)list.get(local)).receiver);
+            intent.putExtra("recephone",((ApplicationFinished)list.get(local)).recephone);
+            intent.setClass(MainPage.this, GetApInfo.class);
+            MainPage.this.startActivity(intent);
+
         }
     }
 

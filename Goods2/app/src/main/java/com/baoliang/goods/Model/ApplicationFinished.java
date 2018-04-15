@@ -22,8 +22,11 @@ public class ApplicationFinished {
     public  String longt;
     public  String latdes;
     public  String longdes;
+    public  String receiver;
+    public String recephone;
     public ApplicationFinished(String Acnum, String Boss, String Phone, String Goods, String Start
-    , String Destination, String Drivernum, String Car, String Weight,String Lat,String Longt,String Latdes,String Longdes)
+    , String Destination, String Drivernum, String Car, String Weight,String Lat,String Longt,String Latdes,String Longdes
+    ,String Receiver,String Recephone)
     {
 
         acnum=Acnum;
@@ -39,6 +42,8 @@ public class ApplicationFinished {
         longt=Longt;
         latdes=Latdes;
         longdes=Longdes;
+        receiver=Receiver;
+        recephone=Recephone;
 
 
     }
@@ -60,6 +65,8 @@ public class ApplicationFinished {
             longt=json.getString("longt");
             latdes=json.getString("latdes");;
             longdes=json.getString("longdes");
+            receiver=json.getString("receiver");
+            recephone=json.getString("recephone");
 
         } catch (JSONException e) {
             Log.v("错误:%s",e.toString());

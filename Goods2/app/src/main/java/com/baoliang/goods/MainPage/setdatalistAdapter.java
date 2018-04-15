@@ -58,12 +58,14 @@ public class setdatalistAdapter extends BaseAdapter {
             convertView=mInflater.inflate(mLayoutId,null);
             holder.listlayout=convertView.findViewById(R.id.datalist1);
             holder.acnum=convertView.findViewById(R.id.acnum);
-            holder.boss=convertView.findViewById(R.id.boss);
-            holder.goods=convertView.findViewById(R.id.goods);
+
+           holder.boss=convertView.findViewById(R.id.boss);
+            /* holder.goods=convertView.findViewById(R.id.goods);
             holder.start=convertView.findViewById(R.id.start);
             holder.destination=convertView.findViewById(R.id.destination);
             holder.weight=convertView.findViewById(R.id.weight);
-            holder.phone=convertView.findViewById(R.id.phone);
+            holder.phone=convertView.findViewById(R.id.phone);*/
+
             convertView.setTag(holder);
         }else{
 
@@ -73,23 +75,23 @@ public class setdatalistAdapter extends BaseAdapter {
         if(position==0)
         {
             holder.acnum.setText("单号");
-            holder.boss.setText("订单人");
-            holder.phone.setText("电话");
+           holder.boss.setText("订单人");
+           /*  holder.phone.setText("电话");
             holder.goods.setText("货物");
             holder.start.setText("始发地");
             holder.destination.setText("目的地");
-            holder.weight.setText("重量");
+            holder.weight.setText("重量");*/
 
         }else {
 
             ApplicationFinished apnf = Aplist.get(position-1);
             holder.acnum.setText(apnf.acnum);
-            holder.boss.setText(apnf.boss);
-            holder.phone.setText(apnf.phone);
+           holder.boss.setText(apnf.boss);
+             /*holder.phone.setText(apnf.phone);
             holder.goods.setText(apnf.goods);
             holder.start.setText(apnf.start);
             holder.destination.setText(apnf.destination);
-            holder.weight.setText(apnf.weight);
+            holder.weight.setText(apnf.weight);*/
         }
         return convertView;
     }
@@ -98,12 +100,12 @@ public class setdatalistAdapter extends BaseAdapter {
 
         private LinearLayout listlayout;
         public TextView acnum;
-        public TextView boss;
-        public TextView phone;
+       public TextView boss;
+        /* public TextView phone;
         public TextView goods;
         public TextView start;
         public TextView destination;
-        public TextView weight;
+        public TextView weight;*/
 
     }
 

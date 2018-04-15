@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    android:layout_margin="0dp"
+    android:layout_marginTop="0px"
+    android:id="@+id/apinfo"
+
+    >
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3label_acnum"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:text="订单号"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_acnum"
+        android:background="@drawable/edit_bg"
+        android:layout_toEndOf="@id/content3label_acnum"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:editable="false"
+
+        />
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:id="@+id/content3label_boss"
+        android:layout_below="@id/content3input_acnum"
+        android:layout_marginTop="20dp"
+        android:text="订单人"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_boss"
+        android:background="@drawable/edit_bg"
+        android:layout_toEndOf="@+id/content3label_boss"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/content3input_acnum"
+        android:editable="false"
+        />
+
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3label_phone"
+        android:layout_below="@+id/content3label_boss"
+        android:layout_marginTop="20dp"
+        android:text="电话"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/content3input_phone"
+        android:background="@drawable/edit_bg"
+        android:layout_below="@+id/content3label_boss"
+        android:layout_toEndOf="@+id/content3label_phone"
+        android:editable="false"
+        />
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3label_goods"
+        android:layout_below="@+id/content3input_phone"
+        android:layout_marginTop="20dp"
+        android:text="货物"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_goods"
+        android:background="@drawable/edit_bg"
+        android:layout_below="@+id/content3input_phone"
+        android:layout_toEndOf="@+id/content3label_goods"
+        android:layout_marginTop="20dp"
+        android:editable="false"
+        />
+
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3label_start"
+        android:layout_below="@+id/content3input_goods"
+        android:layout_marginTop="20dp"
+        android:text="起始位置"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_start"
+        android:background="@drawable/edit_bg"
+        android:layout_below="@+id/content3input_goods"
+        android:layout_toEndOf="@+id/content3label_start"
+        android:layout_marginTop="20dp"
+        android:editable="false"
+        />
+
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3label_destination"
+        android:layout_below="@+id/content3input_start"
+        android:layout_marginTop="20dp"
+        android:text="目的地"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_destination"
+        android:background="@drawable/edit_bg"
+        android:layout_below="@+id/content3input_start"
+        android:layout_toEndOf="@+id/content3label_destination"
+        android:layout_marginTop="20dp"
+        android:editable="false"
+        />
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3label_weight"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/content3input_destination"
+        android:text="重量(吨)"
+
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_weight"
+        android:background="@drawable/edit_bg"
+        android:layout_toEndOf="@+id/content3label_weight"
+        android:layout_below="@+id/content3input_destination"
+        android:layout_marginTop="20dp"
+        android:editable="false"
+        />
+
+
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3receiver"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/content3label_weight"
+        android:text="接货人"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_receiver"
+        android:background="@drawable/edit_bg"
+        android:layout_toEndOf="@+id/content3label_weight"
+        android:layout_below="@+id/content3input_weight"
+        android:layout_marginTop="20dp"
+        android:editable="false"
+        />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3receivephone"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/content3input_receiver"
+        android:text="接货电话"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/content3input_receivephone"
+        android:background="@drawable/edit_bg"
+        android:layout_toEndOf="@+id/content3label_weight"
+        android:layout_below="@+id/content3input_receiver"
+        android:layout_marginTop="20dp"
+        android:editable="false"
+        />
+
+</RelativeLayout>
+
