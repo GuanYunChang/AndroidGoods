@@ -39,6 +39,7 @@ import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.baoliang.goods.R;
+import com.baoliang.goods.Tools.Constantvalue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,10 +122,12 @@ public class Gdmap extends Activity implements LocationSource,
 
 
 //120.49746,36.160792
-        Marker marker1 = aMap.addMarker(new MarkerOptions().position(new LatLng(36.160792,120.49746)).title("信息").snippet("中国海洋大学"));
+        Marker marker1 = aMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(Constantvalue.latdes),Double.parseDouble(Constantvalue.longdes))).title("终点").snippet(Constantvalue.destination));
         marker1.showInfoWindow();
-
-        workspace(new RouteSearch.FromAndTo(new LatLonPoint(currentLocation.getLatitude(),currentLocation.getLongitude()), new LatLonPoint(36.160792,120.49746)), 1);
+        Marker marker2 = aMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(Constantvalue.lat),Double.parseDouble(Constantvalue.longt))).title("起点").snippet(Constantvalue.start));
+        marker2.showInfoWindow();
+        workspace(new RouteSearch.FromAndTo(new LatLonPoint(Double.parseDouble(Constantvalue.lat),Double.parseDouble(Constantvalue.longt)), new LatLonPoint(Double.parseDouble(Constantvalue.latdes),Double.parseDouble(Constantvalue.longdes))), 1);
+       ////// workspace(new RouteSearch.FromAndTo(new LatLonPoint(currentLocation.getLatitude(),currentLocation.getLongitude()), new LatLonPoint(36.160792,120.49746)), 1);
 
 
     }

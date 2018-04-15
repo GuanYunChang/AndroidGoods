@@ -18,8 +18,12 @@ public class ApplicationFinished {
     public String car;
     public String weight;
 
+    public  String lat;
+    public  String longt;
+    public  String latdes;
+    public  String longdes;
     public ApplicationFinished(String Acnum, String Boss, String Phone, String Goods, String Start
-    , String Destination, String Drivernum, String Car, String Weight)
+    , String Destination, String Drivernum, String Car, String Weight,String Lat,String Longt,String Latdes,String Longdes)
     {
 
         acnum=Acnum;
@@ -31,6 +35,12 @@ public class ApplicationFinished {
         drivernum= Drivernum;
         car=Car;
         weight=Weight;
+        lat=Lat;
+        longt=Longt;
+        latdes=Latdes;
+        longdes=Longdes;
+
+
     }
 //{"acnum":"dasfdvfds","boss":"22","phone":"15589522083","car":"路灯45","start":"d","destination":"fd","goods":"dsf","statue":"2","weight":"1251.0","drivernum":"d2"}]
     public ApplicationFinished(JSONObject json)
@@ -46,6 +56,11 @@ public class ApplicationFinished {
             drivernum= json.getString("acnum");
             car=json.getString("drivernum");
             weight=json.getString("weight");
+            lat=json.getString("lat");
+            longt=json.getString("longt");
+            latdes=json.getString("latdes");;
+            longdes=json.getString("longdes");
+
         } catch (JSONException e) {
             Log.v("错误:%s",e.toString());
         }

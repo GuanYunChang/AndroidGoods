@@ -192,6 +192,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     Constantvalue.weight=ap.weight;
                     Constantvalue.boss=ap.boss;
                     Constantvalue.apflag=true;
+                    Constantvalue.lat=ap.lat;
+                    Constantvalue.longt=ap.longt;
+                    Constantvalue.latdes=ap.latdes;
+                    Constantvalue.longdes=ap.longdes;
                     setActionForLogin();
 
                 }else

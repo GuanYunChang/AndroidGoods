@@ -13,4 +13,8 @@ public class Constantvalue {
     public static String weight=" ";
     public static String boss=" ";
     public static boolean apflag=false;
+    public static String lat;
+    public static String longt;
+    public static String latdes;
+    public static String longdes;
 }

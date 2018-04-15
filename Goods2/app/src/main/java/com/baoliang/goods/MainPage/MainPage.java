@@ -1,12 +1,14 @@
 package com.baoliang.goods.MainPage;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -236,39 +238,89 @@ public class MainPage extends AppCompatActivity
     public void setApfinish()
     {
 
-        String urltail="m_setApplicationFinished?drivernums="+ Constantvalue.drivernum;
-        GetUserData.GeJsonObjectData(urltail, this, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
 
-                try {
-                    if(response.getString("statue").equals("ture")) {
-                        Constantvalue.apflag=false;
-                        Toast.makeText(MainPage.this, "成功", Toast.LENGTH_LONG).show();
-                        findViewById(R.id.content1).setVisibility(View.VISIBLE);
-                findViewById(R.id.content2).setVisibility(View.GONE);
-               findViewById(R.id.userinfo).setVisibility(View.GONE);
-                setnavigator();
-                    }else {
 
-                        Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+
+
+        new AlertDialog.Builder(MainPage.this).setTitle("系统提示")//设置对话框标题
+
+                .setMessage("确定任务完成了！")//设置显示的内容
+
+                .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮
+
+
+
+
+
+
+
+
+
+                    @Override
+
+                    public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+
+
+                        String urltail="m_setApplicationFinished?drivernums="+ Constantvalue.drivernum;
+                        GetUserData.GeJsonObjectData(urltail,MainPage. this, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+
+
+                                try {
+                                    if(response.getString("statue").equals("ture")) {
+                                        Constantvalue.apflag=false;
+                                        Toast.makeText(MainPage.this, "成功", Toast.LENGTH_LONG).show();
+                                        findViewById(R.id.content1).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.content2).setVisibility(View.GONE);
+                                        findViewById(R.id.userinfo).setVisibility(View.GONE);
+                                        setnavigator();
+                                        GetFinished();
+                                    }else {
+
+                                        Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+                                    }
+
+
+                                }catch (Exception e)
+                                {
+                                    Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }},new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                                Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
+
+
+
+
                     }
 
+                }).setNegativeButton("取消",new DialogInterface.OnClickListener() {//添加返回按钮
 
-                }catch (Exception e)
-                {
-                    Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
 
-                }
 
-            }},new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
+            @Override
 
-                    Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+            public void onClick(DialogInterface dialog, int which) {//响应事件
 
-                }
-            });
+                // TODO Auto-generated method stub
+
+
+
+            }
+
+        }).show();//在按键响应事件中显示此对话框
+
+
 
 //        GetUserData.GeData(urltail, this, new Response.Listener<String>() {
 //            @Override

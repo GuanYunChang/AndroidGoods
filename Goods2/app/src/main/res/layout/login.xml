@@ -33,13 +33,13 @@
         android:layout_height="30dp"
         android:layout_marginTop="50dp"
         android:text="编码"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="20dp"
 
         android:layout_below="@+id/bar"
     />
     <EditText
         android:id="@+id/nameinput"
-       android:layout_width="200dp"
+       android:layout_width="260dp"
        android:layout_height="30dp"
        android:layout_weight="1"
        android:layout_alignTop="@+id/namelabel"
@@ -56,12 +56,12 @@
         android:layout_height="30dp"
         android:layout_marginTop="50dp"
         android:text="密码"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="20dp"
 
         />
     <EditText
         android:id="@+id/inputpass"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/passlabel"
         android:layout_toRightOf="@+id/passlabel"
