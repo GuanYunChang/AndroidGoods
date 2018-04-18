@@ -39,6 +39,7 @@ public class GetUserData {
         String url= Constantvalue.urlhead+urlTail;
         queue = Volley.newRequestQueue(context);
         JsonObjectRequest jr = new JsonObjectRequest (Request.Method.POST,url,listener,errorListener);
+
         queue.add(jr);
 
 

@@ -17,4 +17,5 @@ public class Constantvalue {
     public static String longt;
     public static String latdes;
     public static String longdes;
+    public static Integer driverstatue=0;
 }

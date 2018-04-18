@@ -25,9 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.maps.MapView;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.baoliang.goods.Login.Login;
 import com.baoliang.goods.Model.ApplicationFinished;
 import com.baoliang.goods.Model.Driver;
@@ -36,6 +40,7 @@ import com.baoliang.goods.Tools.Constantvalue;
 import com.baoliang.goods.Tools.GetUserData;
 import com.baoliang.goods.Tools.JsonTools;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -65,7 +70,7 @@ public class MainPage extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });*/
-
+        ((Button)findViewById(R.id.subinfobtn)).setOnClickListener(this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -90,6 +95,12 @@ public class MainPage extends AppCompatActivity
         ((TextView)header.findViewById(R.id.nav_header_place)).setText("始发地:"+Constantvalue.start+";目的地:"+Constantvalue.destination);
 
 
+    }
+
+    void setStatue()
+    {
+        Intent intent = new Intent(MainPage.this, setStatue.class);
+        startActivity(intent);
     }
 
     //设置高德地图
@@ -152,6 +163,8 @@ public class MainPage extends AppCompatActivity
                 pass.setText(info.pass);
                 EditText  carnum=findViewById(R.id.carninfonum);
                 carnum.setText(info.carnum);
+                EditText  cargo=findViewById(R.id.cargoinput);
+                cargo.setText(info.cargo);
             }
 
         }, new Response.ErrorListener() {
@@ -365,7 +378,103 @@ public class MainPage extends AppCompatActivity
 
 
 
+    public void submitinfo()
+    {
+//http://localhost:8080/baoliang/setdriverinfo?drivernums=d20183716321523089968068&
+// name=%E6%9C%B1%E5%AE%9D%E4%BA%AE&phone=15589522081&carnum=%E9%B2%81Y1234&cargo=16&pass=1
+        queue = Volley.newRequestQueue(this);
+        String drivernum=((EditText)findViewById(R.id.driverinfonum)).getText().toString();
+        String phone=((EditText)findViewById(R.id.phoneinfo)).getText().toString();
+        String name=((EditText)findViewById(R.id.nameinfonum)).getText().toString();
+        String pass=((EditText)findViewById(R.id.passinfonum)).getText().toString();
+        String carnum=((EditText)findViewById(R.id.carninfonum)).getText().toString();
+        String cargo=((EditText)findViewById(R.id.cargoinput)).getText().toString();
 
+        //String urltail="setdriverinfo?"+"drivernums="+drivernum+"&name="+name+"&phone="+phone
+               // +"&carnum="+carnum+"&cargo="+cargo+"&pass="+pass;
+
+
+        String url= Constantvalue.urlhead+"setdriverinfo?"+"pass="+pass+"&name="+java.net.URLEncoder.encode(name)+"&phone="+phone+"&carnum="+java.net.URLEncoder.encode(carnum)
+                +"&cargo="+cargo+"&drivernums="+drivernum;
+        JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    if(response.getString("statue").equals("true")) {
+
+                        Toast.makeText(MainPage.this, "成功", Toast.LENGTH_LONG).show();
+
+
+                    }else{
+
+                       Toast.makeText(MainPage.this, "失败", Toast.LENGTH_LONG).show();
+
+
+
+                    }
+                } catch (JSONException e) {
+
+                    Toast.makeText(MainPage.this, "失败", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainPage.this, "失败", Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(jr);
+
+
+
+        /*GetUserData.GeJsonObjectData(urltail,MainPage. this, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Toast.makeText(MainPage.this, "成功", Toast.LENGTH_LONG).show();
+
+            }},new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+                NetworkResponse r = error.networkResponse;
+                String s=error.toString();
+            }
+        });*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+;        /*GetUserData.GeJsonObjectData(urltail,MainPage. this, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+
+                Toast.makeText(MainPage.this, "提交成功", Toast.LENGTH_LONG).show();
+
+
+            }},new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(MainPage.this, "错误", Toast.LENGTH_LONG).show();
+
+            }
+        });*/
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -374,6 +483,13 @@ public class MainPage extends AppCompatActivity
         {
 
             setApfinish();
+
+        }else if(v.getId()==R.id.subinfobtn)
+        {
+
+
+           submitinfo();
+
         }
 
     }
@@ -432,6 +548,88 @@ public class MainPage extends AppCompatActivity
             findViewById(R.id.content2).setVisibility(View.GONE);
             findViewById(R.id.userinfo).setVisibility(View.GONE);
 
+
+        }else if(id==R.id.setStatue)
+        {
+
+            ///////////////////////////////////////////////////////////////
+            queue = Volley.newRequestQueue(this);
+                String url = Constantvalue.urlhead + "m_getdriverstatue?drivernums=" + Constantvalue.drivernum;
+                JsonObjectRequest jr = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {  if (response.getString("statue").equals("3")) {
+                            Constantvalue.driverstatue = 3;
+
+
+                                new AlertDialog.Builder(MainPage.this).setTitle("系统提示")//设置对话框标题
+
+                                        .setMessage("订单运行中不可修改！")//设置显示的内容
+
+                                        .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮
+
+
+
+
+
+
+
+
+
+                                            @Override
+
+                                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+
+
+                                            }
+
+                                        }).setNegativeButton("取消",new DialogInterface.OnClickListener() {//添加返回按钮
+
+
+
+                                    @Override
+
+                                    public void onClick(DialogInterface dialog, int which) {//响应事件
+
+
+                                    }
+
+                                }).show();//在按键响应事件中显示此对话框
+
+
+
+                            }else {
+                            if (response.getString("statue").equals("2"))
+                            Constantvalue.driverstatue = 2;
+                            else
+                            Constantvalue.driverstatue = 1;
+                               setStatue();
+                            }
+                        }catch (Exception e)
+                        {
+                            Toast.makeText(MainPage.this, "网络信息解析失败", Toast.LENGTH_LONG);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Toast t= Toast.makeText(Login.this, "登录失败", Toast.LENGTH_LONG);
+                        Toast.makeText(MainPage.this, "网络失败", Toast.LENGTH_LONG);
+                    }
+                });
+                queue.add(jr);
+
+
+
+
+
+
+
+
+
+
+            /////////////////////////////////////////////
 
         }
 

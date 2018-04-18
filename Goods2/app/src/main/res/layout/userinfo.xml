@@ -111,10 +111,30 @@
                 android:background="@drawable/edit_bg"
                 android:id="@+id/carninfonum"
                 />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/carninfonum"
+                android:layout_marginTop="20dp"
+                android:text="车载量（吨）"
+                android:id="@+id/cargolable"
+                />
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/carinfonumlabel"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/cargolable"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/edit_bg"
+                android:id="@+id/cargoinput"
+                />
             <Button
+                android:id="@+id/subinfobtn"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/carinfonumlabel"
+                android:layout_below="@id/cargoinput"
                 android:layout_marginTop="50dp"
                 android:layout_centerHorizontal="true"
                 android:text="提交"
